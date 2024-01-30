@@ -1,5 +1,9 @@
 @import url("https://use.typekit.net/jmk3xov.css");
 
+body{
+  overflow-x: hidden;
+}
+
 canvas {
   position: fixed;
   top: 0;
