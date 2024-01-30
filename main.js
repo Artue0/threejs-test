@@ -14,8 +14,7 @@ const material = new THREE.MeshBasicMaterial( { color: 0x19C515, wireframe: true
 const cube = new THREE.Mesh( cubeGeometry, material );
 const icosahedron = new THREE.Mesh( icosahedronGeometry, material );
 scene.add(icosahedron);
-icosahedron.position.z = 4.2
-camera.position.z = 5;
+icosahedron.position.z = -0.9
 
 const controls = new OrbitControls(camera, renderer.domElement)
 
