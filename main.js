@@ -57,7 +57,7 @@ window.addEventListener('scroll', function() {
 
 function animate() {
 	requestAnimationFrame( animate );
-	controls.update
+	//controls.update
 
 	cube.rotation.x += 0.01;
 	cube.rotation.y += 0.01;
