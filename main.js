@@ -24,13 +24,36 @@ camera.position.z = 5;
 
 const controls = new OrbitControls(camera, renderer.domElement)
 
-function moveCamera() {
-	const top = document.body.getBoundingClientRect().top;
-	cameraShape.rotation.x = top * 0.001;
-	cameraShape.rotation.y = top * 0.001;
+function isPageScrolledToTop() {
+    return (document.documentElement.scrollTop || document.body.scrollTop) === 0;
 }
 
-document.body.onscroll = moveCamera
+let rotate = true;
+
+window.addEventListener('scroll', function() {
+    if (isPageScrolledToTop()) {
+        rotate = true;
+    } else {
+        rotate = false;
+    }
+});
+
+let lastScrollTop = 0;
+
+window.addEventListener('scroll', function() {
+    let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+    
+    if (currentScroll > lastScrollTop) {
+        cameraShape.rotation.x += 0.008;
+		cameraShape.rotation.y += 0.008;
+    } else {
+        cameraShape.rotation.x -= 0.008;
+		cameraShape.rotation.y -= 0.008;
+    }
+    
+    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+}, false);
+
 
 function animate() {
 	requestAnimationFrame( animate );
@@ -38,6 +61,11 @@ function animate() {
 
 	cube.rotation.x += 0.01;
 	cube.rotation.y += 0.01;
+
+	if(rotate){
+		cameraShape.rotation.x += 0.008;
+		cameraShape.rotation.y += 0.008;
+	}
 
 	renderer.render( scene, camera );
 }
