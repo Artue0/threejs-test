@@ -7,6 +7,7 @@
 
 body{
   overflow-x: hidden;
+  cursor: none;
 }
 
 canvas {
@@ -68,7 +69,17 @@ canvas {
     background-position: 0% 100%;
   }
 }
-  
+
+#custom-cursor {
+  position: fixed;
+  width: 45px;
+  height: 45px;
+  background-image: url('mouse.png');
+  background-size: cover;
+  pointer-events: none;
+  z-index: 5;
+  transform: translate(-50%,-50%);
+}
 
 :root {
   --dark-bg: rgba(15, 15, 15, 0.95);
