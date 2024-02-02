@@ -1,5 +1,8 @@
 import * as THREE from 'three';
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
+import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
+
+const monkeyUrl = new URL('assets/monkey.glb', import.meta.url);
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -21,6 +24,15 @@ cube.position.x = 4.2
 icosahedron.position.x = -6
 icosahedron.position.y = 3
 camera.position.z = 5
+
+const assetLoader = new GLTFLoader();
+
+assetLoader.load(monkeyUrl.href, function(gltf) {
+    const monkey = gltf.scene;
+    scene.add(monkey);
+}, undefined, function(error) {
+    console.error(error)
+});
 
 const controls = new OrbitControls(camera, renderer.domElement)
 
@@ -81,12 +93,21 @@ window.addEventListener('resize', function() {
 document.addEventListener('DOMContentLoaded', function () {
     var customCursor = document.getElementById('custom-cursor');
 
-    document.addEventListener('mousemove', function (e) {
-        var x = e.clientX;
-        var y = e.clientY;
+    function updateCursorPosition(e) {
+        var x, y;
+        if (e.type === 'touchmove') {
+            x = e.touches[0].clientX + window.scrollX;
+            y = e.touches[0].clientY + window.scrollY;
+        } else {
+            x = e.clientX + window.scrollX;
+            y = e.clientY + window.scrollY;
+        }
         customCursor.style.left = x + 'px';
         customCursor.style.top = y + 'px';
-    });
+    }
+
+    document.addEventListener('mousemove', updateCursorPosition);
+    document.addEventListener('touchmove', updateCursorPosition);
 
     document.addEventListener('mouseleave', function () {
         customCursor.style.display = 'none';

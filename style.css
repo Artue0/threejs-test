@@ -74,7 +74,7 @@ canvas {
   position: fixed;
   width: 45px;
   height: 45px;
-  background-image: url('mouse.png');
+  background-image: url('assets/mouse.png');
   background-size: cover;
   pointer-events: none;
   z-index: 5;
