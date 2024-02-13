@@ -24,7 +24,7 @@ cameraShape.position.z = 5
 cube.position.x = 4.2
 icosahedron.position.x = -6
 icosahedron.position.y = 3
-camera.position.z = 5
+camera.position.z = 5;
 
 const assetLoader = new GLTFLoader();
 let ship2;
@@ -132,28 +132,3 @@ function animate() {
 }
 
 animate();
-
-window.addEventListener('resize', function() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-    var customCursor = document.getElementById('custom-cursor');
-
-    document.addEventListener('mousemove', function (e) {
-        var x = e.clientX;
-        var y = e.clientY;
-        customCursor.style.left = x + 'px';
-        customCursor.style.top = y + 'px';
-    });
-
-    document.addEventListener('mouseleave', function () {
-        customCursor.style.display = 'none';
-    });
-
-    document.addEventListener('mouseenter', function () {
-        customCursor.style.display = 'block';
-    });
-});
