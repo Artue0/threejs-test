@@ -5,8 +5,18 @@
   --green: 9 252 8;
 }
 
-body{
-  overflow-x: hidden;
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-snap-type: y proximity;
+}
+
+body {
+  background-color: #141414;
+  overflow: hidden;
   cursor: none;
 }
 
@@ -15,6 +25,17 @@ canvas {
   top: 0;
   left: 0;
   height: 100vmin;
+}
+
+#green-box {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #146c11;
+  opacity: 0%;
+  z-index: 10;
 }
 
 #screen-overlay {    
@@ -32,7 +53,7 @@ canvas {
   left: 0;
   top: 0;
   opacity: 20%;
-  z-index: 2;
+  z-index: 20;
 }
 
 #radial-gradient {
@@ -40,7 +61,7 @@ canvas {
     rgb(var(--green) / 1%), 
     rgb(var(--dark-rgb) / 80%)
   );
-  z-index: 4;
+  z-index: 40;
   height: 100%;
   width: 100%;
   position: fixed;
@@ -49,9 +70,8 @@ canvas {
   pointer-events: none;
 }
 
-
 #screen {
-  z-index: 3;
+  z-index: 30;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -74,88 +94,132 @@ canvas {
   position: fixed;
   width: 45px;
   height: 45px;
-  background-image: url('assets/mouse.png');
+  background-image: url('assets/img/mouse.png');
   background-size: cover;
   pointer-events: none;
-  z-index: 5;
+  user-select: none;
+  z-index: 50;
   transform: translate(-50%,-50%);
 }
 
-:root {
-  --dark-bg: rgba(15, 15, 15, 0.95);
-  --spacing: 350px;
-
-  font-family: "Space Mono", monospace;
-  font-weight: 400;
-  font-style: normal;
-}
 
 
-main {
-  width: 100vw;
-  color: white;
-  z-index: 1;
+#image-track {
+  z-index: 2;
+  display: flex;
+  gap: 4vmin;
   position: absolute;
-  width: 100%;
-  margin: 0px auto;
-  padding: 120px 0px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%); 
+  user-select: none;
+}
   
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
+.image {
+  width: 30vmin;
+  height: 46vmin;
+  object-fit: cover;
+  object-position: 50% center;
+  cursor: pointer;
 }
 
-h1, h2, h3, blockquote {
-  font-family: elevon, sans-serif;
-  font-weight: 700;
-  font-style: normal;
+.fullscreen {
+  z-index: 3;
+  gap: 4vmin;
+  position: absolute;
+  left: 0%;
+  top: 50%;
+  width: 100vw;
+  height: 100vh;
+  transform: translate(0%,-50%);
+  animation: Transition 1.2s ease;
 }
 
-canvas {
+@keyframes Transition {
+  from {
+    left: var(--start-x);
+    top: 50%;
+    width: 40vmin;
+    height: 56vmin;
+  }
+  to {
+    left: 0%;
+    top: 50%;
+    width: 100vw;
+    height: 100vh;
+  }
+}
+
+.reverseFullscreen {animation: ReverseTransition 1.2s ease forwards;}
+
+@keyframes ReverseTransition {
+  from {
+    left: 0%;
+    top: 50%;
+    width: 100vw;
+    height: 100vh;
+  }
+  to {
+    left: var(--start-x);
+    top: 50%;
+    width: 40vmin;
+    height: 56vmin;
+  }
+}
+
+h1 {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%,50%);
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  color: white;
+  font-size: 6vw;
+  font-family: Lucida Console, Monospace;
+  user-select: none;
+  white-space: nowrap;
+}
+
+section {
+  z-index: 1;
+  height: 100vmin;
+  width: 100vw;
+  background-color: aqua;
+  scroll-snap-align: start;
+  user-select: none;
+}
+section:nth-child(1){opacity: 0;}
+section:nth-child(odd){background-color: red;}
+
+.button {
+  z-index: 4;
   position: fixed;
-  top: 0;
-  left: 0;
+  top: -100px;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  user-select: none;
+  opacity: 95%;
+  width: 5vw;
+  mix-blend-mode: difference;
 }
 
+.slideDown {animation: slideDown 1.8s forwards;}
+.slideUp {animation: slideUp 1.8s forwards;}
 
-
-  header {
-    background: var(--dark-bg);
-    grid-column: 2 / span 5;
-    font-size: 2.5rem;
-    padding: 2rem;
-    margin-bottom: var(--spacing);
+@keyframes slideDown {
+  from {
+    top: -100px;
   }
-
-  section {
-    grid-column: 2 / 8;
-    padding: 1rem;
-    background: var(--dark-bg);
-    font-size: 1.25rem;
-    line-height: 1.5;
-    margin-bottom: var(--spacing);
+  to {
+    top: 100px;
   }
-
-  blockquote {
-    margin: 0;
-    padding: 0;
-    grid-column: 2 / span 9;
-    margin-bottom: var(--spacing);
+}
+@keyframes slideUp {
+  from {
+    top: 100px;
   }
-
-  blockquote p {
-    color: white;
-    font-size: 4rem;
-    display: inline;
-    line-height: 1;
+  to {
+    top: -100px;
   }
-
-  .left {
-    grid-column: 6 / 12;
-  }
-
-  rect {
-    width: 100px;
-    aspect-ratio: 1/1;
-    background-color: blue;
-    grid-column: 100 / 2;
-  }
+}
